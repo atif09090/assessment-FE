@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   description: "develop by medicals dev",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
