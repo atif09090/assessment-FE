@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { postLogs } from '@/services/logService'
 import { useRouter } from "next/navigation";
+import useSocket from '@/hooks/useSocket'
 
 
 type DailyLogFormInputs = {
@@ -50,6 +51,9 @@ export default function DailyLogForm() {
     const mood = watch('mood')
     const anxiety = watch('anxiety')
     const stressLevel = watch('stressLevel')
+    const socket = useSocket('http://localhost:8080');
+
+    
 
     const onSubmit: SubmitHandler<DailyLogFormInputs> = async (data) => {
         try {
@@ -57,6 +61,7 @@ export default function DailyLogForm() {
             if (response) {
                 alert('Daily log submitted successfully!');
                 router.push('/dashboard')
+                socket?.emit('dailylog-update');
             }
 
         } catch (error: any) {

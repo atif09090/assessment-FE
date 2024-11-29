@@ -6,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { getLogs } from '@/services/logService'
+import useSocket from '@/hooks/useSocket'
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState('7days')
@@ -13,6 +15,7 @@ export default function Dashboard() {
   const [averages, setAverages] = useState<any>({ mood: 0, anxiety: 0, sleepHours: 0, stressLevel: 0 }) // Store averages
   const [loading, setLoading] = useState<boolean>(false) // Loading state
   const [error, setError] = useState<string | null>(null) // Error state
+  const socket = useSocket('http://localhost:8080');
 
   // Function to fetch data from API
   const fetchData = async () => {
@@ -48,10 +51,20 @@ export default function Dashboard() {
     fetchData()
   }, [timeRange])
 
+ 
+
   // Handling the timeRange change
   const handleTimeRangeChange = (value: string) => {
     setTimeRange(value)
   }
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("dailylog-updated", (data) => {
+        fetchData()
+      });
+    }
+  }, [socket]);
 
   // Loading 
   if (loading) {
@@ -83,7 +96,7 @@ export default function Dashboard() {
         </Select>
         <div className="ms-2">
           <Button asChild>
-            <a href="/daily-log">Add New Daily Log</a>
+            <a href="/dashboard/daily-log">Add New Daily Log</a>
           </Button>
         </div>
       </div>
