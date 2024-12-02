@@ -1,18 +1,28 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(req: NextRequest) {
-  const token = req.cookies.get('accessToken') || req.cookies.get('next-auth.csrf-token');
-  console.log("call",token)
-  if (!token) {
-    const loginUrl = new URL('/login', req.url);
+const protectedRoutes = ['/dashboard']; // Routes requiring authentication
+const publicRoutes = ['/']; // Routes accessible without authentication
+
+export default function middleware(req: NextRequest) {
+  const token =
+    req.cookies.get('accessToken') || req.cookies.get('next-auth.csrf-token');
+  const currentPath = req.nextUrl.pathname;
+
+
+  if (publicRoutes.includes(currentPath)) {
+    return NextResponse.next();
+  }
+
+  if (protectedRoutes.includes(currentPath) && !token) {
+    const loginUrl = new URL('/', req.url);
     return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
 }
 
-// Apply middleware to protected routes
+// Apply middleware to all routes
 export const config = {
-  matcher: ['/protected-page/:path*'], // Protect the "protected-page" route
+  matcher: ['/dashboard/:path*', '/login/:path*'], 
 };

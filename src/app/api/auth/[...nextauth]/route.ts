@@ -6,8 +6,8 @@ const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: clientId,
-      clientSecret: clientSecret,
+      clientId: '211094885179-0i8pstte40h1ch1sktr2dk93e71fvcp1.apps.googleusercontent.com',
+      clientSecret: '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',
     }),
   ],
   callbacks: {
@@ -27,7 +27,6 @@ const handler = NextAuth({
           console.error("Failed to authenticate with the backend.");
           return false;
         }
-
         // const data = await response.json()
         // Return true to allow sign-in and proceed with the session
         return true;

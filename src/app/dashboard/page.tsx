@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { getLogs } from '@/services/logService'
+import Link from 'next/link'
 import useSocket from '@/hooks/useSocket'
 import { useRouter } from "next/navigation";
 
@@ -40,7 +41,9 @@ export default function Dashboard() {
       })
       setAverages(calculatedAverages)
     } catch (err: any) {
-      setError('Error fetching data.')
+      toast({
+        description: String(error) || "Fetch Error !",
+      })
     } finally {
       setLoading(false)
     }
@@ -97,6 +100,7 @@ export default function Dashboard() {
         <div className="ms-2">
           <Button asChild>
             <a href="/dashboard/daily-log">Add New Daily Log</a>
+            <Link href="/dashboard/daily-log">Add New Daily Log</Link>
           </Button>
         </div>
       </div>
@@ -203,9 +207,7 @@ export default function Dashboard() {
                   <td className="px-4 py-2 border">{day.sleepHours}</td>
                   <td className="px-4 py-2 border">{day.stressLevel}</td>
                 </tr>
-              ))}:(
-              <>Not Record Exist</>
-              )
+              ))}
             </tbody>
           </table>
         </div>

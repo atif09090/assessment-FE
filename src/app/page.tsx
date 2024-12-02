@@ -10,6 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Login } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast"
 type LoginFormInputs = {
   email: string;
   password: string;
@@ -20,6 +21,8 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
+  const { toast } = useToast()
+
   // Initialize useForm with the LoginFormInputs type
   const {
     register,
@@ -38,7 +41,9 @@ export default function LoginPage() {
         router.push('/dashboard')
       }
     } catch (error) {
-      console.error("An unexpected error occurred:", error);
+      toast({
+        description: String(error) || "Internal Server Error !",
+      })
     }
   };
   // Handler function for form submission
