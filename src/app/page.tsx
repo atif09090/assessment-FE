@@ -128,7 +128,6 @@ export default function LoginPage() {
             </div>
           </form>
 
-          {error && <p className="text-red-500 text-center">{error}</p>}
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
