@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label"
 import { Register } from '@/services/authService'
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface RegisterFormInputs {
   email: string
   password: string
@@ -39,12 +40,13 @@ export default function RegisterPage() {
     try {
       const response = await Register(JSON.stringify(data))
       if (response) {
-        router.push('/')
+        router.push('/');
+        toast.success("Register Successfully !")
       }
 
     } catch (error) {
       console.error(error)
-      alert('Registration failed. Please try again.')
+      toast.error('Registration failed. Please try again.')
     }
   }
 
@@ -116,6 +118,7 @@ export default function RegisterPage() {
           </Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   )
 }

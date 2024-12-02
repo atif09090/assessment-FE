@@ -61,7 +61,7 @@ export default function DailyLogForm() {
             if (response) {
                 alert('Daily log submitted successfully!');
                 router.push('/dashboard')
-                socket?.emit('dailylog-update');
+                socket?.emit('dailylog-update',data);
             }
 
         } catch (error: any) {

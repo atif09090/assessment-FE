@@ -8,7 +8,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { getLogs } from '@/services/logService'
 import Link from 'next/link'
 import useSocket from '@/hooks/useSocket'
-import { useRouter } from "next/navigation";
+
+
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState('7days')
@@ -41,9 +42,7 @@ export default function Dashboard() {
       })
       setAverages(calculatedAverages)
     } catch (err: any) {
-      toast({
-        description: String(error) || "Fetch Error !",
-      })
+        
     } finally {
       setLoading(false)
     }
@@ -63,8 +62,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (socket) {
-      socket.on("dailylog-updated", (data) => {
-        fetchData()
+      socket.on("dailylog-updated", (newLog) => {
+        setData([...data,newLog ])
       });
     }
   }, [socket]);
@@ -99,7 +98,6 @@ export default function Dashboard() {
         </Select>
         <div className="ms-2">
           <Button asChild>
-            <a href="/dashboard/daily-log">Add New Daily Log</a>
             <Link href="/dashboard/daily-log">Add New Daily Log</Link>
           </Button>
         </div>

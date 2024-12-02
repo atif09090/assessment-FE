@@ -10,7 +10,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Login } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useToast } from "@/hooks/use-toast"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 type LoginFormInputs = {
   email: string;
   password: string;
@@ -21,7 +23,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
-  const { toast } = useToast()
+ 
 
   // Initialize useForm with the LoginFormInputs type
   const {
@@ -39,11 +41,12 @@ export default function LoginPage() {
         console.error("Google login failed:", result.error);
       } else {
         router.push('/dashboard')
+        toast.success("Login Successfully")
       }
     } catch (error) {
-      toast({
-        description: String(error) || "Internal Server Error !",
-      })
+      // "Internal Server Error !",
+      toast.error("Internal Server Error !")
+     
     }
   };
   // Handler function for form submission
