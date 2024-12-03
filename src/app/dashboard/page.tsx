@@ -59,11 +59,29 @@ export default function Dashboard() {
   const handleTimeRangeChange = (value: string) => {
     setTimeRange(value)
   }
+console.log(data);
+useEffect(()=>{
+ if(data.length!==0){
+  const calculatedAverages = data.reduce((acc: any, day: any) => {
+    acc.mood += Number(day.mood) || 0
+    acc.anxiety += Number(day.anxiety) || 0
+    acc.sleepHours += Number(day.sleepHours) || 0
+    acc.stressLevel += Number(day.stressLevel) || 0
+    return acc
+  }, { mood: 0, anxiety: 0, sleepHours: 0, stressLevel: 0 })
 
+  Object.keys(calculatedAverages).forEach(key => {
+    calculatedAverages[key] = Number((calculatedAverages[key] / data.length).toFixed(1))
+  })
+  setAverages(calculatedAverages)
+ }
+},[data])
   useEffect(() => {
     if (socket) {
       socket.on("dailylog-updated", (newLog) => {
-        setData([...data,newLog ])
+        setData(((prev)=>[...prev, newLog]))
+
+        
       });
     }
   }, [socket]);
