@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState<boolean>(false) // Loading state
   const [error, setError] = useState<string | null>(null) // Error state
   const socket = useSocket('http://localhost:8080');
-
+ 
   // Function to fetch data from API
   const fetchData = async () => {
     setLoading(true)
@@ -84,7 +84,7 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Mental Health Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4">Mental Health Dashboard </h1>
       <div className="mb-4 align-baseline flex md:flex-row flex-col">
         <Select onValueChange={handleTimeRangeChange} defaultValue={timeRange}>
           <SelectTrigger className="w-[180px]">

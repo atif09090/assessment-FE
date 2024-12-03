@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { CodeSquare, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,6 +40,7 @@ export default function LoginPage() {
       if (result?.error) {
         console.error("Google login failed:", result.error);
       } else {
+        console.log("resullt",result)
         router.push('/dashboard')
         toast.success("Login Successfully")
       }
