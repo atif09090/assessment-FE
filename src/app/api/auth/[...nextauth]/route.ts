@@ -40,7 +40,6 @@ const handler = NextAuth({
           cookieStore.set("refresh_token", refreshToken as string)
           account.access_token = accessToken ;
           account.refresh_token = refreshToken;
-          account.name = 'moiz'
           return true;
         }
 
